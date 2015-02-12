@@ -1,0 +1,12 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 200 200">
+ <defs>
+  <marker id="a" refY="0.0" refX="0.0" orient="auto" overflow="visible">
+   <path stroke-linejoin="round" d="m8.72 4.03l-10.9-4.01 10.9-4.02c-1.75 2.37-1.74 5.62 0 8.03z" fill-rule="evenodd" transform="scale(.6) rotate(180) translate(0)" stroke="#f00" stroke-width=".625" fill="#f00"/>
+  </marker>
+ </defs>
+ <g transform="translate(-139 -257)">
+  <flowRoot style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="40px" line-height="125%" font-family="&apos;Chalkboard SE&apos;" fill="#000000"><flowRegion><rect height="191" width="531" y="170" x="123"/></flowRegion><flowPara/></flowRoot>
+  <text style="word-spacing:0px;letter-spacing:0px" font-weight="bold" xml:space="preserve" font-size="40px" line-height="125%" y="293.79077" x="145.14285" font-family="&apos;Chalkboard SE&apos;" fill="#ff0000"><tspan x="145.14285" y="293.79077">Happy Ira</tspan></text>
+  <path marker-end="url(#a)" d="m198 315c-5.13 15-75.2 108 103 111" stroke="#f00" stroke-width="6.3" fill="none"/>
+ </g>
+</svg>
