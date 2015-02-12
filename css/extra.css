@@ -1,0 +1,54 @@
+section#title-slide img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+section img.naked {
+  background: none;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+
+img#happy-arrow {
+  background: none;
+  border: none;
+  box-shadow: none;
+  position: absolute;
+  bottom: 192px;
+  right: 225px;
+  z-index: 10;
+}
+
+section#ack-slide h4 {
+  margin: 20px auto 10px;
+}
+
+div.contact,
+div.acknowledge {
+  display: inline-block;
+  font-size: 80%;
+  vertical-align: top;
+  width: 45%;
+}
+
+div.contact > img {
+  border-width: 1px;
+  display: inline-block;
+  margin: 15px;
+  vertical-align: middle;
+}
+
+div.contact > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+/* for IE9 or below */
+div.contact li {
+  list-style-type: none;
+}
+

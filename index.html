@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 (experimental) for Mac OS X https://github.com/w3c/tidy-html5/tree/c63cc39">
+  <meta charset="utf-8">
+
+  <title>Easy deployment of tools with complex dependencies using
+  Docker and Galaxy on the Cloud</title>
+  <meta name="description" content=
+  "VLSCI Summer Internship 2014/15 Final Presentation">
+  <meta name="author" content="Simon Belluzzo">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content=
+  "black-translucent">
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css" id="theme">
+  <link rel="stylesheet" href="css/extra.css">
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+  <!-- Printing and PDF exports -->
+
+  <script>
+var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+      <script src="lib/js/html5shiv.js"></script>
+      <![endif]-->
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section id="title-slide">
+        <h3>Easy Deployment of Tools with Complex Dependencies
+        using Docker and Galaxy on the Cloud</h3>
+
+        <div><img class="title-img" height="200" data-src=
+        "images/galaxyLogo.png" alt="Galaxy Logo"> + <img class=
+        "title-img" height="200" data-src=
+        "images/docker_large_v-dark-trans.png" alt="Docker Logo"> =
+        <img class="title-img" height="200" data-src=
+        "images/happy-ira.jpg" alt="Happy Ira"></div>
+
+        <h4>Simon Belluzzo - Ira Cooke</h4><a href=
+        "http://simon.belluzzo.id.au/vlsci-intern-slides">http://simon.belluzzo.id.au/vlsci-intern-slides</a>
+        <img id="happy-arrow" class="fragment" height="200"
+        data-src="images/happyira.svg" alt=
+        "Arrow pointing at a happy Ira">
+      </section>
+
+      <section>
+        <h3>Galaxy for the Uninitiated</h3>
+      </section>
+
+      <section>
+        <div class="stretch">
+          <img class="naked" data-src=
+          "images/galaxyLaunchWorkflow.png" alt=
+          "Galaxy executing a workflow">
+
+          <div style="font-size: smaller;">
+            <a href="https://usegalaxy.org">Galaxy Main</a> -
+            <a href="https://genome.edu.au/wiki/GVL">GVL</a> -
+            <a href="http://galaxyproject.org">Galaxy Project</a>
+          </div>
+        </div>
+
+        <aside class="notes"></aside>
+      </section>
+
+      <section>
+        <h3>Tool Dependency Asteroid Fields</h3>
+          <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1600 900" xmlns:dc="http://purl.org/dc/elements/1.1/">
+           <g transform="translate(0 -152)">
+            <g>
+             <rect fill-rule="evenodd" ry="62.9" height="126" width="243" stroke="#000" y="200" x="679" stroke-width="1px" fill="#1f78b4"/>
+             <text style="word-spacing:0px;letter-spacing:0px" font-weight="900" font-size="60px" line-height="125%" y="282.14502" x="724.39923" font-family="&apos;Source Sans Pro&apos;" xml:space="preserve" fill="#ffffff"><tspan y="282.14502" x="724.39923"><tspan y="282.14502" x="724.39923">ProtK</tspan></tspan></text>
+            </g>
+            <g class="fragment">
+              <g fill="#b2df8a">
+               <circle cy="507" cx="586" r="69"/>
+               <circle cx="800" cy="507" r="69"/>
+               <circle cx="1.01e3" cy="507" r="69"/>
+              </g>
+              <g stroke="#fff" stroke-width="2" fill="none">
+               <path d="m800 326v3 109"/>
+               <path d="m598 440c29.8-34.6 99.9-22 139-40.5 52-24.4 60.3-72.4 60.3-72.4v-1.15"/>
+               <path d="m1e3 439c-28-35-98-22-138-41-52-24-60-72-60-72v-1.15"/>
+              </g>
+            </g>
+            <g class="fragment">
+              <rect ry="54.3" height="109" width="194" y="218" x="274" fill="#a6cee3"/>
+              <rect ry="54.3" height="109" width="194" y="218" x="1.13e3" fill="#a6cee3"/>
+              <g fill="#b2df8a">
+                <circle cy="507" cx="157" r="69"/>
+                <circle cx="371" cy="507" r="69"/>
+                <circle cy="507" cx="1.23e3" r="69"/>
+                <circle cx="1.44e3" cy="507" r="69"/>
+              </g>
+              <g stroke="#fff" stroke-width="2" fill="none">
+                <path d="m166 439c29.8-34.6 99.9-22 139-40.5 52-24.4 60.3-72.4 60.3-72.4v-1.15"/>
+                <path d="m570 440c-30-34.6-100-22-140-40.5-52.3-24.4-60.6-72.4-60.6-72.4v-1.15"/>
+                <path d="m368 326v112"/>
+                <path d="m1.03e3 439c29.8-34.6 99.9-22 139-40.5 52-24.4 60.3-72.4 60.3-72.4v-1.15"/>
+                <path d="m1.43e3 440c-30-34.6-100-22-140-40.5-52.3-24.4-60.6-72.4-60.6-72.4v-1.15"/>
+                <path d="m1.23e3 326v112"/>
+              </g>
+            </g>
+            <g class="fragment">
+              <g fill="#b2df8a">
+               <circle cx="157" cy="758" r="69"/>
+               <circle cy="758" cx="371" r="69"/>
+               <circle cx="586" cy="758" r="69"/>
+               <circle cy="758" cx="800" r="69"/>
+               <circle cy="758" cx="1.01e3" r="69"/>
+               <circle cx="1.23e3" cy="758" r="69"/>
+               <circle cy="758" cx="1.44e3" r="69"/>
+              </g>
+              <g stroke="#fff" stroke-width="2" fill="none">
+               <path d="m397 570c27.1 48.3 84.3 48.4 112 68 34.7 24.8 39 62 39 62"/>
+               <path d="m181 571c27.1 48.3 84.3 48.4 112 68 34.7 24.8 39 62 39 62"/>
+               <path d="m769 569c-65 48-196 61-262 80-83 25-101 50-101 50"/>
+               <path d="m542 561c-65.5 48.2-203 48.3-269 67.8-83.6 24.7-93.9 61.9-93.9 61.9"/>
+               <path d="m1.2e3 568c-42 19.3-102 44.8-158 65.3-89.7 32.6-212-2.36-275 9.29-134 24.7-148 54.9-148 54.9"/>
+               <path d="m156 576v112"/>
+               <path d="m622 564c65.5 48.2 203 48.3 269 67.8 83.6 24.7 93.9 61.9 93.9 61.9"/>
+               <path d="m1.44e3 576v112"/>
+               <path d="m1.23e3 575v112"/>
+               <path d="m1.4e3 560c-46.6 2.88-41.4 68.2-62 103-20.3 34-66.9 37.4-66.9 37.4"/>
+               <path d="m800 576v112"/>
+               <path d="m1.06e3 812c72.8 54.1 146 10.2 146 10.2"/>
+               <path d="m1.21e3 825s-122 55.9-187 55.5c-66.1-0.437-189-58.9-189-58.9"/>
+              </g>
+            </g>
+            <g class="fragment">
+              <g>
+               <rect style="image-rendering:auto" height="120" width="1.6e3" y="935" x="0" fill="#33a02c"/>
+               <text style="word-spacing:0px;letter-spacing:0px" font-weight="900" xml:space="preserve" font-size="50px" line-height="125%" y="1008.4194" x="375.26172" font-family="&apos;Source Sans Pro&apos;" fill="#ffffff"><tspan x="375.26172" y="1008.4194"><tspan y="1008.4194" x="375.26172">Operating System-level dependencies</tspan></tspan></text>
+              </g>
+              <g stroke="#fff" stroke-width="2" fill="none">
+               <path d="m1.23e3 826v109"/>
+               <path d="m155 827v109"/>
+               <path d="m584 827v109"/>
+              </g>
+             </g>
+           </g>
+          </svg>
+        <aside class="notes"></aside>
+      </section>
+
+      <section>
+        <h3>Containers &amp; Docker</h3>
+      </section>
+
+      <section>
+        <h3>Containers</h3><img src="images/contvsvm.png" style=
+        "background: #fff" alt="VMs vs Containers">
+
+        <ul style="font-size: smaller;">
+          <li class="fragment">Other than the kernel, containers
+          are isolated from each other and the host</li>
+
+          <li class="fragment">Sit in between chroot and full
+          virtualization</li>
+        </ul>
+
+        <aside class="notes"></aside>
+      </section>
+
+      <section>
+        <h3>And Docker..?</h3>
+
+        <ul>
+          <li class="fragment">Convenience wrapper around container
+          management</li>
+
+          <li class="fragment">Mixes in Git/DVCS ideas in dealing
+          with image changes/layers</li>
+
+          <li class="fragment">Docker Hub provides hosting and
+          automated building</li>
+
+          <li class="fragment"><strong>For us:</strong> Enhances
+          accessibility and reproducibility</li>
+        </ul>
+
+        <p class="fragment">Docker is not the only player, expect
+        competition</p>
+
+        <aside class="notes"></aside>
+      </section>
+
+      <section>
+        <h3>Project Aims</h3>
+
+        <ol>
+          <li class="fragment">Create a ProtK Docker image</li>
+
+          <li class="fragment">Adapt Galaxy wrappers to use the
+          image</li>
+
+          <li class="fragment">Test deployment and execution on
+          standalone and cloud Galaxy instances (for use with
+          GVL)</li>
+        </ol>
+      </section>
+
+      <section>
+        <h3>Docker Image Building</h3>
+
+        <aside class="notes">
+          Balancing automated builds, size, clarity,
+          reproducibility and maintainability, build tools
+          separate, nested builds, size C++ std changes, boost
+          conflicts, required ruby versions
+        </aside>
+      </section>
+
+      <section id="build-slide">
+        <img class="naked" data-src="images/dockerfile.svg" style=
+        "vertical-align: top; display: inline-block; width: 49%;"
+        alt="ProtK Dockerfile (abridged)"> <img class=
+        "fragment naked" data-src="images/image_building.svg"
+        style="vertical-align: top; display: inline-block; width: 49%;"
+        alt="Automated builds are triggered by pushing code">
+      </section>
+
+      <section>
+        <h3>Galaxy Integration</h3>
+
+        <aside class="notes">
+          Rapidly evolving, one or two extra tags in job conf,
+          wrappers and fallbacks, wrapper scripts and runtimes Test
+          cases and tutorial run throughs
+        </aside>
+      </section>
+
+      <section>
+        <img class="naked" data-src="images/galaxy_local.svg" alt=
+        "Installing from the Galaxy Tool Shed; with and without Docker">
+
+        <div style="font-size: smaller;">
+          <ul style="list-style-type: none">
+            <li class="fragment">Without Docker:</li>
+
+            <li>
+              <ul>
+                <li class="fragment">The "admin" may not have the
+                required expertise for installation</li>
+
+                <li class="fragment">Installation steps can differ
+                significantly across operating systems</li>
+
+                <li class="fragment">Documentation can be patchy or
+                non-existent</li>
+              </ul>
+            </li>
+
+            <li class="fragment">With Docker:</li>
+
+            <li>
+              <ul>
+                <li class="fragment">Graceful fallback</li>
+
+                <li class="fragment">Backwards-compatible with
+                non-Dockerised tools</li>
+
+                <li class="fragment">Consistent method to install
+                tools</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h3>GVL/Galaxy on the Cloud Integration</h3>
+
+        <ul>
+          <li class="fragment">Dockerised tools run fine on either
+          master or worker nodes</li>
+
+          <li class="fragment">Not compatible with the current GVL
+          (new version will be)</li>
+
+          <li class="fragment">Don't have to wait; can use our
+          custom Galaxy on the Cloud image &amp; bucket (NeCTAR
+          only)</li>
+        </ul>
+
+        <aside class="notes">
+          Issues with GVL instances due to old kernel, and SGE
+          conflict. Built own 'GVL-lite'/Galaxy in the Cloud.
+          Documentation lacking/inaccurate Works fine with SLURM,
+          both locally and on CM worker nodes CLI script to start
+          up a cluster on any region, or can use GVL launcher with
+          the right options Issues with multiple processes, unaware
+          of updates Automated Selenium testcases and runthroughs
+        </aside>
+      </section>
+
+      <section>
+        <h3>Advantages</h3>
+
+        <ul>
+          <li class="fragment">Transparent to end-user</li>
+
+          <li class="fragment">Simple to deploy &amp; update</li>
+
+          <li class="fragment">Aids reproducibility</li>
+
+          <li class="fragment">Isolates tools and their
+          dependencies from each other and the host operating
+          system</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Disadvantages</h3>
+
+        <ul>
+          <li class="fragment">Some Docker bugs (transient, and
+          fixed in new versions)</li>
+
+          <li class="fragment">Duplication of dependencies &amp;
+          large image sizes</li>
+
+          <li class="fragment">Nascent tech, patterns and best
+          practices still forming</li>
+
+          <li class="fragment">Docker, Inc uncertainty</li>
+
+          <li class="fragment"><strong><u>Security</u></strong> (at
+          least in Galaxy's use of Docker)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Further Work</h3>
+
+        <ul>
+          <li class="fragment">Inclusion of a Docker registry
+          mirror</li>
+
+          <li class="fragment">Enhanced Galaxy-Docker integration
+
+            <ul>
+              <li>Allowing use of multiple containers in a single
+              wrapper</li>
+
+              <li>Container sharing between tools</li>
+            </ul>
+          </li>
+
+          <li class="fragment">Docker image and container
+          management options</li>
+
+          <li class="fragment">Better image build process
+          (Dockerfile or otherwise)</li>
+
+          <li class="fragment">Wine in Docker for Windows-based
+          tools</li>
+        </ul>
+
+        <aside class="notes"></aside>
+      </section>
+
+      <section id="ack-slide">
+        <div>
+          <h4>Acknowledgements</h4>
+
+          <div class="acknowledge">
+            <ul>
+              <li>Ira Cooke</li>
+
+              <li>Nathan Hall</li>
+
+              <li>Andrew Robinson</li>
+
+              <li>Nuwan Goonasekera</li>
+
+              <li>Christina Hall</li>
+
+              <li>
+                <a href="http://vlsci.org.au">VLSCI</a> LSCC for
+                funding
+              </li>
+
+              <li>
+                <a href="http://nectar.org.au">NeCTAR</a> for
+                infrastructure
+              </li>
+            </ul>
+          </div>
+
+          <div class="acknowledge">
+            OSS projects utilised:
+
+            <ul>
+              <li>
+                <a href="http://galaxyproject.org">Galaxy</a>
+              </li>
+
+              <li>
+                <a href=
+                "https://wiki.galaxyproject.org/CloudMan">CloudMan</a>
+              </li>
+
+              <li>
+                <a href="https://www.docker.com">Docker</a>
+              </li>
+
+              <li>
+                <a href="http://www.ansible.com">Ansible</a>
+              </li>
+
+              <li>
+                <a href="https://www.debian.org">Debian</a>
+              </li>
+
+              <li>
+                <a href="http://www.ubuntu.com">Ubuntu</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+
+          <div class="contact">
+            <img height="80" data-src=
+            "https://avatars.githubusercontent.com/simonalpha" alt=
+            "Simon GitHub Profile Pic">
+
+            <ul>
+              <li>
+                <a href=
+                "mailto:simon+internship@belluzzo.id.au">simon@belluzzo.id.au</a>
+              </li>
+
+              <li>@simonalpha</li>
+            </ul>
+          </div>
+
+          <div class="contact">
+            <img height="80" data-src=
+            "https://avatars.githubusercontent.com/iracooke" alt=
+            "Ira GitHub Profile Pic">
+
+            <ul style="margin auto;">
+              <li>
+                <a href=
+                "mailto:I.Cooke@latrobe.edu.au">I.Cooke@latrobe.edu.au</a>
+              </li>
+
+              <li>@iracooke</li>
+            </ul>
+          </div>
+        </div><a href=
+        "http://simon.belluzzo.id.au/vlsci-intern-slides">http://simon.belluzzo.id.au/vlsci-intern-slides</a>
+      </section>
+    </div>
+  </div><script src="lib/js/head.min.js">
+</script> <script src="js/reveal.js">
+</script> <script>
+Reveal.initialize({
+  controls: false,
+  progress: false,
+  center: true,
+  history: true,
+  transition: 'slide',
+  dependencies: [
+  { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+  ]
+  });
+  </script>
+</body>
+</html>
